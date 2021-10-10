@@ -1,6 +1,6 @@
 package resource;
 
-public class showException extends Exception {
+public class showException extends RuntimeException {
 
     public showException(String message) {
         super(message);

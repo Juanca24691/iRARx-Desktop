@@ -24,7 +24,6 @@ public class main extends javax.swing.JFrame {
         
         connection.connect("localhost", 3306, "irarx", "root", "admin012345");
 
-
         main.depure = 1;
 
         try {
@@ -153,8 +152,6 @@ public class main extends javax.swing.JFrame {
         } catch (showException ex) {
             ex.getMessage();
         }
-
-
     }//GEN-LAST:event_buttonExtractActionPerformed
 
     static {

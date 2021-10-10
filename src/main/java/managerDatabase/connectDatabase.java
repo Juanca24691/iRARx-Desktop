@@ -17,13 +17,14 @@ public class connectDatabase implements IManagerDatabase{
     ResultSet result;
 
     @Override
-    public void connect(String addres, int port, String database, String user, String password) {
+    public void connect(String addres, int port, String database, String user, String password) throws showException{
         try {
             this.URL = "jdbc:mysql://" + addres + ":" + Integer.toString(port) + "/" + database + "?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
             this.connection = DriverManager.getConnection(this.URL, user, password);
             this.databaseName = database;
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
+            throw new showException("Se produjo una excepción al tratar de conectar con la base de datos(" + this.getClass() + ")");
         }
     }
 
@@ -65,6 +66,7 @@ public class connectDatabase implements IManagerDatabase{
             this.result.close();
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
+            throw new showException("Se produjo una excepción al tratar de recuperar una columna en la base de datos(" + this.getClass() + ")");
         }
         
         return value;
