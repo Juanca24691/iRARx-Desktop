@@ -2,7 +2,6 @@ package resource;
 
 import java.io.File;
 import interfaces.ICreateResource;
-import run.main;
 
 public class createResource implements ICreateResource{
     
@@ -13,11 +12,11 @@ public class createResource implements ICreateResource{
         if (dir.exists() == false && dir.getAbsolutePath() != null) {
             createResource.resource = new File(dir.getAbsolutePath());
             this.getDirResource().mkdir();
-            if (main.depure == 1) {
+            if (run.index.depure == 1) {
                 System.out.println("Se creo el recurso requerido(" + this.getClass() + ")\n\n");
             }
         }else{
-            if (main.depure == 1) {
+            if (run.index.depure == 1) {
                 System.out.println("No se pudo crear el recurso requerido(" + this.getClass() + ")\n\n");
             }
         }

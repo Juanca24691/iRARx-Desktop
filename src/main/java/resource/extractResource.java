@@ -4,7 +4,6 @@ import interfaces.IExtractResource;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import run.main;
 
 public class extractResource implements IExtractResource {
 
@@ -31,12 +30,12 @@ public class extractResource implements IExtractResource {
                     this.is = this.command.getInputStream();
                     this.bis = new BufferedInputStream(this.is);
                 } else {
-                    if (main.depure == 1) {
+                    if (run.index.depure == 1) {
                         System.out.println("El condicional anidado no se cumplio(" + this.getClass() + ")\n\n");
                     }
                 }
             } else {
-                if (main.depure == 1) {
+                if (run.index.depure == 1) {
                     System.out.println("El condicional no se cumplio(" + this.getClass() + ")\n\n");
                 }
             }

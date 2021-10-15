@@ -3,7 +3,6 @@ package resource;
 import interfaces.IExplorer;
 import java.awt.FileDialog;
 import java.io.File;
-import run.main;
 
 public class explorer implements IExplorer {
 
@@ -12,7 +11,7 @@ public class explorer implements IExplorer {
 
     @Override
     public void openExplorer() throws showException {
-        FileDialog openResource = new FileDialog(main.window, "Abrir recurso", FileDialog.LOAD);
+        FileDialog openResource = new FileDialog(run.index.window, "Abrir recurso", FileDialog.LOAD);
         openResource.setFilenameFilter((File directorio, String nombre) -> nombre.endsWith(".rar"));
         openResource.setVisible(true);
 
@@ -20,7 +19,7 @@ public class explorer implements IExplorer {
 
             // Se recupera el directorio absoluto
             explorer.archive = new File(openResource.getDirectory() + openResource.getFile());
-            if (main.depure == 1) {
+            if (run.index.depure == 1) {
                 System.out.println(this.getArchive() + " ruta del recurso obtenida"
                         + "\n + Atributos: "
                         + "\n\t Es una ruta: " + this.getArchive().isDirectory()
@@ -30,7 +29,7 @@ public class explorer implements IExplorer {
                         + "\n\n");
             }
         } else {
-            if (main.depure == 1) {
+            if (run.index.depure == 1) {
                 System.out.println("Se cancelo la operacion o la ruta del recurso es nula(" + this.getClass() + ")\n\n");
             }
         }
@@ -38,7 +37,7 @@ public class explorer implements IExplorer {
 
     @Override
     public void save() throws showException {
-        FileDialog saveResource = new FileDialog(main.window, "Guardar recurso", FileDialog.SAVE);
+        FileDialog saveResource = new FileDialog(run.index.window, "Guardar recurso", FileDialog.SAVE);
         saveResource.setVisible(true);
 
         if (saveResource.getDirectory() != null) {
@@ -46,7 +45,7 @@ public class explorer implements IExplorer {
             // Se recupera el directorio absoluto
             explorer.getDir = new File(saveResource.getDirectory() + saveResource.getFile());
 
-            if (main.depure == 1) {
+            if (run.index.depure == 1) {
                 System.out.println(this.getDir() + " ruta de guardado obtenido"
                         + "\n + Atributos: "
                         + "\n\t Es una ruta: " + this.getDir().isDirectory()
@@ -56,7 +55,7 @@ public class explorer implements IExplorer {
                         + "\n\n");
             }
         } else {
-            if (main.depure == 1) {
+            if (run.index.depure == 1) {
                 System.out.println("Se cancelo la operacion o la ruta de guardado es nula(" + this.getClass() + ")\n\n");
             }
         }
