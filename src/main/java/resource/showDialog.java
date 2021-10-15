@@ -9,9 +9,6 @@ public class showDialog extends javax.swing.JDialog implements interfaces.IShowD
         javax.swing.JDialog dialog = new javax.swing.JDialog(run.index.window, true);
         javax.swing.JOptionPane JOP = new javax.swing.JOptionPane(message, javax.swing.JOptionPane.INFORMATION_MESSAGE, javax.swing.JOptionPane.YES_NO_OPTION, new javax.swing.ImageIcon(image), buttons, buttons[0]);
 
-
-        //Object name = javax.swing.JOptionPane.showInputDialog("Type your name please");
-        //javax.swing.JOptionPane.showMessageDialog(null, "Hello " + name);
         JOP.addPropertyChangeListener((java.beans.PropertyChangeEvent e) -> {
             String buttonClick = e.getPropertyName();
             if ("value".equals(buttonClick)) {

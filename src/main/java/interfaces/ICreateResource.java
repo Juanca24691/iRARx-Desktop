@@ -1,11 +1,8 @@
 package interfaces;
 
-import java.io.File;
-import resource.showException;
-
 public interface ICreateResource {
-    
-    void createDirResource(File dir) throws showException;
-    
-    File getDirResource();
+
+    void createDirResource(java.io.File dir) throws resource.showException;
+
+    java.io.File getDirResource();
 }

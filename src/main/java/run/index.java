@@ -1,10 +1,5 @@
 package run;
 
-import javax.swing.*;
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-
 public class index extends javax.swing.JFrame{
 
     static { System.setProperty("apple.awt.application.name", "iRARx"); }
@@ -23,9 +18,9 @@ public class index extends javax.swing.JFrame{
             System.setProperty("apple.laf.useScreenMenuBar", "true");
 
             // Carga la imagen para el icono de la aplicación
-            Toolkit herramientas = Toolkit.getDefaultToolkit();
-            Image icono = herramientas.getImage(System.getProperty("user.dir") + "/container/images/icon.png");
-            Taskbar dock = Taskbar.getTaskbar(); // Nuevo código des pues de JDK 9
+            java.awt.Toolkit herramientas = java.awt.Toolkit.getDefaultToolkit();
+            java.awt.Image icono = herramientas.getImage(System.getProperty("user.dir") + "/container/images/icon.png");
+            java.awt.Taskbar dock = java.awt.Taskbar.getTaskbar(); // Nuevo código des pues de JDK 9
 
             try {
                 // Establecer icono para macOS (y otros sistemas que admiten este método)
@@ -115,7 +110,7 @@ public class index extends javax.swing.JFrame{
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             ex.printStackTrace(System.out);
-            //throw new showException("Excepción, No se pudo establecer el look de la aplicacón");
+            throw new resource.showException("Excepción, No se pudo establecer el look de la aplicacón");
         }
 
         javax.swing.SwingUtilities.invokeLater(() -> {

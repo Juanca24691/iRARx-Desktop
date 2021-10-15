@@ -1,24 +1,27 @@
 package resource;
 
-import interfaces.IExplorer;
-import java.awt.FileDialog;
-import java.io.File;
+public class explorer implements interfaces.IExplorer {
 
-public class explorer implements IExplorer {
+    private static java.io.File getDir;
+    private static java.io.File archive;
 
-    private static File getDir;
-    private static File archive;
+    // Object
+    showDialog OShowDialog = new showDialog();
 
     @Override
     public void openExplorer() throws showException {
-        FileDialog openResource = new FileDialog(run.index.window, "Abrir recurso", FileDialog.LOAD);
-        openResource.setFilenameFilter((File directorio, String nombre) -> nombre.endsWith(".rar"));
+        java.awt.FileDialog openResource = new java.awt.FileDialog(run.index.window, "Abrir recurso", java.awt.FileDialog.LOAD);
+        openResource.setFilenameFilter((java.io.File directorio, String nombre) -> nombre.endsWith(".rar"));
         openResource.setVisible(true);
 
         if (openResource.getFile() != null) {
 
             // Se recupera el directorio absoluto
-            explorer.archive = new File(openResource.getDirectory() + openResource.getFile());
+            explorer.archive = new java.io.File(openResource.getDirectory() + openResource.getFile());
+
+            // Mensaje
+            this.OShowDialog.message("Fichero seleccionado correcta mente, Ahora estas listo para extraerlo\ndando clic al boton 'Extraer'", System.getProperty("user.dir") + "/container/images/perfect-2.png", new String[]{"Aceptar"});
+
             if (run.index.depure == 1) {
                 System.out.println(this.getArchive() + " ruta del recurso obtenida"
                         + "\n + Atributos: "
@@ -29,6 +32,7 @@ public class explorer implements IExplorer {
                         + "\n\n");
             }
         } else {
+            this.OShowDialog.message("Aun no has seleccioado un fichero, Debe seleccionar uno\npara poder extraerlo, Por favor vuelve a intentarlo cuando estes listo", System.getProperty("user.dir") + "/container/images/cancel.png", new String[]{"Aceptar"});
             if (run.index.depure == 1) {
                 System.out.println("Se cancelo la operacion o la ruta del recurso es nula(" + this.getClass() + ")\n\n");
             }
@@ -37,13 +41,13 @@ public class explorer implements IExplorer {
 
     @Override
     public void save() throws showException {
-        FileDialog saveResource = new FileDialog(run.index.window, "Guardar recurso", FileDialog.SAVE);
+        java.awt.FileDialog saveResource = new java.awt.FileDialog(run.index.window, "Guardar recurso", java.awt.FileDialog.SAVE);
         saveResource.setVisible(true);
 
         if (saveResource.getDirectory() != null) {
 
             // Se recupera el directorio absoluto
-            explorer.getDir = new File(saveResource.getDirectory() + saveResource.getFile());
+            explorer.getDir = new java.io.File(saveResource.getDirectory() + saveResource.getFile());
 
             if (run.index.depure == 1) {
                 System.out.println(this.getDir() + " ruta de guardado obtenido"
@@ -55,6 +59,7 @@ public class explorer implements IExplorer {
                         + "\n\n");
             }
         } else {
+            this.OShowDialog.message("Debes seleccionar una ruta para poder extraer el fichero\npor favor selecciona una ruta y vuelve a intentarlo", System.getProperty("user.dir") + "/container/images/cancel.png", new String[]{"Aceptar"});
             if (run.index.depure == 1) {
                 System.out.println("Se cancelo la operacion o la ruta de guardado es nula(" + this.getClass() + ")\n\n");
             }
@@ -62,12 +67,12 @@ public class explorer implements IExplorer {
     }
 
     @Override
-    public File getArchive() {
+    public java.io.File getArchive() {
         return explorer.archive;
     }
 
     @Override
-    public File getDir() {
+    public java.io.File getDir() {
         return explorer.getDir;
     }
 }

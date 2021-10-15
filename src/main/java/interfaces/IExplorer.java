@@ -1,15 +1,12 @@
 package interfaces;
 
-import java.io.File;
-import resource.showException;
-
 public interface IExplorer {
     
-    void openExplorer() throws showException;
+    void openExplorer() throws resource.showException;
     
-    void save() throws showException;
-    
-    File getArchive();
-    
-    File getDir();
+    void save() throws resource.showException;
+
+    java.io.File getArchive();
+
+    java.io.File getDir();
 }

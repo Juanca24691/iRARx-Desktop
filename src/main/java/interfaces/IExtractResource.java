@@ -1,15 +1,11 @@
 package interfaces;
 
-import resource.createResource;
-import resource.explorer;
-import resource.showException;
-
 public interface IExtractResource {
     
     // Object
-    explorer OExplorer = new explorer();
-    createResource OCreateResource = new createResource();
+    resource.explorer OExplorer = new resource.explorer();
+    resource.createResource OCreateResource = new resource.createResource();
     
-    void commandResource() throws showException;
+    void commandResource() throws resource.showException;
     
 }
