@@ -1,13 +1,18 @@
 package resource;
 
+import java.awt.*;
+
 public class showDialog extends javax.swing.JDialog implements interfaces.IShowDialog {
+
 
     @Override
     public void message(String message, String image, String[] buttons) throws showException {
-        javax.swing.UIManager UI = new javax.swing.UIManager();
-        UI.put("Panel.background", new javax.swing.plaf.ColorUIResource(240,242,245));
+        javax.swing.UIManager.put("Panel.background", new javax.swing.plaf.ColorUIResource(240,242,245));
         javax.swing.JDialog dialog = new javax.swing.JDialog(run.index.window, true);
+
+
         javax.swing.JOptionPane JOP = new javax.swing.JOptionPane(message, javax.swing.JOptionPane.INFORMATION_MESSAGE, javax.swing.JOptionPane.YES_NO_OPTION, new javax.swing.ImageIcon(image), buttons, buttons[0]);
+
 
         JOP.addPropertyChangeListener((java.beans.PropertyChangeEvent e) -> {
             String buttonClick = e.getPropertyName();
