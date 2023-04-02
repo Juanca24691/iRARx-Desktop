@@ -1,5 +1,8 @@
 package interfaces;
 
 public interface IShowDialog {
-    void message(String message, String image, String[] buttons) throws resource.showException;
+
+    String input(boolean type, String message, javax.swing.ImageIcon icon, String[] buttons) throws resource.showException;
+
+    void message(boolean type, String message, javax.swing.ImageIcon icon, String[] buttons) throws resource.showException;
 }
