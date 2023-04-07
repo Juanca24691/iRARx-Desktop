@@ -2,18 +2,17 @@ package interfaces;
 
 public interface IDirectory {
 
-    resource.showDialog OShowDialog = new resource.showDialog();
+    src.showDialog OShowDialog = new src.showDialog();
 
-    resource.extractFile OExtractFile = new resource.extractFile();
+    src.extractFile OExtractFile = new src.extractFile();
 
-    void create(java.io.File directory) throws resource.showException;
+    void create(java.io.File directory) throws src.showException;
 
-    void open(java.io.File directory) throws resource.showException;
+    void open(java.io.File directory) throws src.showException;
 
-    void remove(java.io.File directory) throws resource.showException;
+    void remove(java.io.File directory) throws src.showException;
 
     java.io.File getDirectory();
 
     void setDirectory(java.io.File directory);
-
 }

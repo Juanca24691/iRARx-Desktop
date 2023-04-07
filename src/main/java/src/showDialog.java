@@ -1,6 +1,4 @@
-package resource;
-
-import run.main;
+package src;
 
 public class showDialog extends javax.swing.JDialog implements interfaces.IShowDialog {
 
@@ -10,7 +8,7 @@ public class showDialog extends javax.swing.JDialog implements interfaces.IShowD
     public void notify(javax.swing.ImageIcon icon, String message, String button) throws showException {
 
         // Create an instance of JDialog and set it to be modal
-        javax.swing.JDialog dialog = new javax.swing.JDialog(main.window, true);
+        javax.swing.JDialog dialog = new javax.swing.JDialog(run.main.window, true);
 
         // Create a JOptionPane with the specified message, icon, and buttons
         javax.swing.JOptionPane JOP = new javax.swing.JOptionPane(message, javax.swing.JOptionPane.INFORMATION_MESSAGE, javax.swing.JOptionPane.YES_NO_OPTION, icon, new String[]{button});
@@ -23,14 +21,14 @@ public class showDialog extends javax.swing.JDialog implements interfaces.IShowD
         });
 
         // Customize dialog
-        this.roundedEdges(main.window, true, dialog, JOP);
+        this.roundedEdges(run.main.window, true, dialog, JOP);
     }
 
     @Override
     public Boolean confirmation(javax.swing.ImageIcon icon, String message, String[] buttons) {
 
         // Create an instance of JDialog and set it to be modal
-        javax.swing.JDialog dialog = new javax.swing.JDialog(main.window, true);
+        javax.swing.JDialog dialog = new javax.swing.JDialog(run.main.window, true);
 
         // Create a JOptionPane with the specified message, icon, and buttons
         javax.swing.JOptionPane JOP = new javax.swing.JOptionPane(message, javax.swing.JOptionPane.INFORMATION_MESSAGE, javax.swing.JOptionPane.YES_NO_OPTION, icon, buttons);
@@ -49,7 +47,7 @@ public class showDialog extends javax.swing.JDialog implements interfaces.IShowD
         });
 
         // Customize dialog
-        this.roundedEdges(main.window, true, dialog, JOP);
+        this.roundedEdges(run.main.window, true, dialog, JOP);
         return this.confirmationStatus;
     }
 

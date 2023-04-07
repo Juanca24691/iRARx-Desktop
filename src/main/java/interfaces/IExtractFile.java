@@ -1,17 +1,15 @@
 package interfaces;
 
-import resource.directory;
-
 public interface IExtractFile {
 
     // Object
-    resource.showDialog OShowDialog = new resource.showDialog();
+    src.showDialog OShowDialog = new src.showDialog();
 
-    resource.explorer OExplorer = new resource.explorer();
+    src.explorer OExplorer = new src.explorer();
 
-    directory ODirectory = new directory();
+    src.directory ODirectory = new src.directory();
 
-    void commandLine() throws resource.showException;
+    void commandLine() throws src.showException;
 
     void selectFile();
 
@@ -38,5 +36,4 @@ public interface IExtractFile {
     String getPassword();
 
     void setPassword(String text);
-
 }

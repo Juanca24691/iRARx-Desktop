@@ -9,5 +9,4 @@ public interface IShowDialog {
     String input(javax.swing.ImageIcon icon, String message, String[] buttons);
 
     void roundedEdges(javax.swing.JFrame parent, Boolean modal, javax.swing.JDialog dialog, javax.swing.JOptionPane JOP);
-
 }

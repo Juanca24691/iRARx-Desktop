@@ -2,9 +2,9 @@ package interfaces;
 
 public interface IExplorer {
 
-    void selectFile() throws resource.showException;
+    void selectFile() throws src.showException;
 
-    void extractionPath() throws resource.showException;
+    void extractionPath() throws src.showException;
 
     java.io.File getFileName();
 
@@ -21,5 +21,4 @@ public interface IExplorer {
     java.io.File getExtractionPathTwo();
 
     void setExtractionPathTwo(java.io.File absoluteRoute);
-
 }

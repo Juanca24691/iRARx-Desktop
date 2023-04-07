@@ -1,6 +1,4 @@
-package resource;
-
-import run.main;
+package src;
 
 public class explorer implements interfaces.IExplorer {
 
@@ -14,12 +12,12 @@ public class explorer implements interfaces.IExplorer {
     It is marked as final to ensure that its value cannot be changed after initialization. */
     private final showDialog OShowDialog = new showDialog();
 
-    // This is the implementation of the "selectFile()" method from the "IExplorer" interface.
+    // This is the implementation of the "selectFile()" method from the "IExplorer" interface
     @Override
     public void selectFile() throws showException {
 
-        // A file dialog box is created to allow the user to select a file.
-        java.awt.FileDialog selectFile = new java.awt.FileDialog(main.window, "Select file", java.awt.FileDialog.LOAD);
+        // A file dialog box is created to allow the user to select a file
+        java.awt.FileDialog selectFile = new java.awt.FileDialog(run.main.window, "Select file", java.awt.FileDialog.LOAD);
 
         // A filter is set on the dialog box to show only files that end with ".rar"
         selectFile.setFilenameFilter((java.io.File directory, String name) -> name.endsWith(".rar"));
@@ -37,14 +35,14 @@ public class explorer implements interfaces.IExplorer {
 
             // Change the output label
             String changeLabelOutputText = "Selected file " + convertFileName;
-            main.window.setOutputText(changeLabelOutputText);
-            main.window.getOutputText().setToolTipText(changeLabelOutputText);
+            run.main.window.setOutputText(changeLabelOutputText);
+            run.main.window.getOutputText().setToolTipText(changeLabelOutputText);
 
             // A dialog box is created to display a success message to the user
-            this.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/done.png"), "The file " + convertFileName + " has been successfully selected\nNow you can extract it by clicking on the blue button", "Accept");
+            this.OShowDialog.notify(new javax.swing.ImageIcon(java.util.Objects.requireNonNull(getClass().getResource("/resources/images/done.png"))), "The file " + convertFileName + " has been successfully selected\nNow you can extract it by clicking on the blue button", "Accept");
         } else {
             // If the user has not selected a file, then an error message is displayed to the user.
-            this.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The selection file is null\nPlease select a valid file and try again", "Accept");
+            this.OShowDialog.notify(new javax.swing.ImageIcon(java.util.Objects.requireNonNull(getClass().getResource("/resources/images/failed.png"))), "The selection file is null\nPlease select a valid file and try again", "Accept");
         }
     }
 
@@ -53,7 +51,7 @@ public class explorer implements interfaces.IExplorer {
     public void extractionPath() throws showException {
 
         // A file dialog box is created to allow the user to select a path to save the extracted files
-        java.awt.FileDialog saveResource = new java.awt.FileDialog(main.window, "Select extraction directory", java.awt.FileDialog.SAVE);
+        java.awt.FileDialog saveResource = new java.awt.FileDialog(run.main.window, "Select extraction directory", java.awt.FileDialog.SAVE);
 
         // The file dialog box is made visible to the user.
         saveResource.setVisible(true);
@@ -66,7 +64,7 @@ public class explorer implements interfaces.IExplorer {
             this.setExtractionPathTwo(new java.io.File(saveResource.getDirectory() + saveResource.getFile()));
         } else {
             // If the user has not selected a path, then an error message is displayed to the user.
-            this.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The extraction directory appears to be null\nPlease select a route, give it a name and try again", "Accept");
+            this.OShowDialog.notify(new javax.swing.ImageIcon(java.util.Objects.requireNonNull(getClass().getResource("/resources/images/failed.png"))), "The extraction directory appears to be null\nPlease select a route, give it a name and try again", "Accept");
         }
     }
 
