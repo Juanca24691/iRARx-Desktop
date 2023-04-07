@@ -2,7 +2,12 @@ package interfaces;
 
 public interface IShowDialog {
 
-    String input(boolean type, String message, javax.swing.ImageIcon icon, String[] buttons) throws resource.showException;
+    void notify(javax.swing.ImageIcon icon, String message, String button);
 
-    void message(boolean type, String message, javax.swing.ImageIcon icon, String[] buttons) throws resource.showException;
+    Boolean confirmation(javax.swing.ImageIcon icon, String message, String[] buttons);
+
+    String input(javax.swing.ImageIcon icon, String message, String[] buttons);
+
+    void roundedEdges(javax.swing.JFrame parent, Boolean modal, javax.swing.JDialog dialog, javax.swing.JOptionPane JOP);
+
 }

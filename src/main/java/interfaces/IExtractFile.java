@@ -1,11 +1,15 @@
 package interfaces;
 
+import resource.directory;
+
 public interface IExtractFile {
 
     // Object
     resource.showDialog OShowDialog = new resource.showDialog();
+
     resource.explorer OExplorer = new resource.explorer();
-    resource.createDirectory OCreatePath = new resource.createDirectory();
+
+    directory ODirectory = new directory();
 
     void commandLine() throws resource.showException;
 

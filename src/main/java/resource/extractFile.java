@@ -1,10 +1,12 @@
 package resource;
 
+import run.main;
+
 public class extractFile implements interfaces.IExtractFile {
 
     private static Integer exitCode = null;
 
-    private String password = new String();
+    private String password = null;
 
     @Override
     public void commandLine() throws showException {
@@ -22,41 +24,41 @@ public class extractFile implements interfaces.IExtractFile {
                             if (extractFile.OExplorer.getExtractionPathOne().isAbsolute()) {
 
                                 // Create a directory to extract the selected file
-                                extractFile.OCreatePath.createDirectory(extractFile.OExplorer.getExtractionPathOne());
+                                extractFile.this.ODirectory.create(extractFile.OExplorer.getExtractionPathOne());
 
                                 // Conditions before processing the command line
                                 if (extractFile.OExplorer.getExtractionPathOne().exists()) {
-                                    if (extractFile.OCreatePath.getDirectory() != null) {
-                                        if (extractFile.OCreatePath.getDirectory().exists()) {
-                                            if (extractFile.OCreatePath.getDirectory().isAbsolute()) {
+                                    if (extractFile.this.ODirectory.getDirectory() != null) {
+                                        if (extractFile.this.ODirectory.getDirectory().exists()) {
+                                            if (extractFile.this.ODirectory.getDirectory().isAbsolute()) {
 
                                                 // Create a new SwingWorker to execute a task in the background thread
-                                                javax.swing.SwingWorker<Void, String> worker = new javax.swing.SwingWorker<Void, String>() {
+                                                javax.swing.SwingWorker<Void, String> worker = new javax.swing.SwingWorker<>() {
                                                     // Override doInBackground method to perform the task in the background
                                                     @Override
                                                     protected Void doInBackground() throws Exception {
                                                         try {
                                                             // Create a new ProcessBuilder with the command to execute in the shell
-                                                            ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", String.format("'%s/container/winrar/%s/rar' x '%s' '%s'", System.getProperty("user.dir"), run.main.operatingSystem, extractFile.OExplorer.getFilePath(), extractFile.OCreatePath.getDirectory()));
+                                                            ProcessBuilder pb = new ProcessBuilder("/bin/sh", "-c", String.format("'%s/resources/rar_commandline/%s/rar' x '%s' '%s'", System.getProperty("user.dir"), main.operatingSystem, extractFile.OExplorer.getFilePath(), extractFile.this.ODirectory.getDirectory()));
                                                             Process process = pb.start(); // Start the process
                                                             java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream())); // Read the process output using a BufferedReader
 
                                                             // Set the text color of the output label to green
-                                                            run.main.window.getLabelOutputText().setForeground(new java.awt.Color(88, 217, 139));
+                                                            main.window.getOutputText().setForeground(new java.awt.Color(88, 217, 139));
 
-                                                            if (run.main.window.getButtonImportResource().isVisible()) {
+                                                            if (main.window.getImportFile().isVisible()) {
                                                                 // Disable button extract resources
-                                                                run.main.window.getButtonImportResource().setEnabled(!run.main.window.getButtonImportResource().isEnabled());
-                                                            } else if (run.main.window.getButtonSuccessfulDecompression().isVisible()) {
-                                                                run.main.window.getButtonSuccessfulDecompression().setEnabled(!run.main.window.getButtonSuccessfulDecompression().isEnabled());
+                                                                main.window.getImportFile().setEnabled(!main.window.getImportFile().isEnabled());
+                                                            } else if (main.window.getSuccessfulDecompression().isVisible()) {
+                                                                main.window.getSuccessfulDecompression().setEnabled(!main.window.getSuccessfulDecompression().isEnabled());
                                                             }
 
                                                             // Disable some buttons while the task is running
-                                                            run.main.window.getButtonExtractResources().setEnabled(!run.main.window.getButtonExtractResources().isEnabled());
-                                                            run.main.window.getButtonOpenDirectory().setEnabled(!run.main.window.getButtonOpenDirectory().isEnabled());
-                                                            run.main.window.getButtonRemoveResource().setEnabled(!run.main.window.getButtonRemoveResource().isEnabled());
-                                                            run.main.window.getButtonChangeLanguage().setEnabled(!run.main.window.getButtonChangeLanguage().isEnabled());
-                                                            run.main.window.getButtonSetPassword().setEnabled(!run.main.window.getButtonSetPassword().isEnabled());
+                                                            main.window.getExtractFile().setEnabled(!main.window.getExtractFile().isEnabled());
+                                                            main.window.getOpenDirectory().setEnabled(!main.window.getOpenDirectory().isEnabled());
+                                                            main.window.getRemoveExtraction().setEnabled(!main.window.getRemoveExtraction().isEnabled());
+                                                            main.window.getChangeLanguage().setEnabled(!main.window.getChangeLanguage().isEnabled());
+                                                            main.window.getSetPassword().setEnabled(!main.window.getSetPassword().isEnabled());
 
                                                             String line;
 
@@ -79,7 +81,7 @@ public class extractFile implements interfaces.IExtractFile {
                                                     @Override
                                                     protected void process(java.util.List<String> chunks) {
                                                         for (String line : chunks) {
-                                                            run.main.window.setLabelOutputText(line);
+                                                            main.window.setOutputText(line);
                                                         }
                                                     }
 
@@ -87,39 +89,39 @@ public class extractFile implements interfaces.IExtractFile {
                                                     @Override
                                                     protected void done() {
                                                         // Hide the Import button
-                                                        run.main.window.getButtonImportResource().setVisible(false);
+                                                        main.window.getImportFile().setVisible(false);
 
                                                         // Set the text color of the output label to green or red depending on the exit code
-                                                        run.main.window.getLabelOutputText().setForeground(new java.awt.Color(187, 187, 187));
+                                                        main.window.getOutputText().setForeground(new java.awt.Color(187, 187, 187));
                                                         String changeLabelOutputText = extractFile.exitCode != 0 ? "Some errors seem to have occurred while trying to extract the file" : "The file " + (extractFile.this.getFileName().toString().length() > 20 ? extractFile.this.getFileName().toString().substring(0, 13) + "..." + extractFile.this.getFileName().toString().substring(extractFile.this.getFileName().toString().length() - 7) : extractFile.this.getFileName().toString()) + " has been successfully decompressed";
-                                                        run.main.window.setLabelOutputText(changeLabelOutputText);
-                                                        run.main.window.getLabelOutputText().setToolTipText(changeLabelOutputText);
+                                                        main.window.setOutputText(changeLabelOutputText);
+                                                        main.window.getOutputText().setToolTipText(changeLabelOutputText);
 
                                                         // Enable some buttons and show a dialog with a message and options based on the exit code
                                                         if (extractFile.exitCode != 0) {
-                                                            run.main.window.getButtonError().setEnabled(!run.main.window.getButtonError().isEnabled());
-                                                            run.main.window.getButtonError().setVisible(!run.main.window.getButtonError().isVisible());
+                                                            main.window.getFailedDecompression().setEnabled(!main.window.getFailedDecompression().isEnabled());
+                                                            main.window.getFailedDecompression().setVisible(!main.window.getFailedDecompression().isVisible());
 
                                                             // Display an error message dialog with options to accept
-                                                            extractFile.OShowDialog.message(false, "Ha ocurrido un error al descomprimir el fichero\nPuede que este contengan caracteres no apropiados\nPor favor, rectifica el nombre del fichero y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+                                                            extractFile.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "An error occurred while unzipping the file\nMay contain inappropriate characters\nPlease rectify the file name and try again", "Accept");
 
                                                         } else {
                                                             // Enable button of successful decompression
-                                                            run.main.window.getButtonSuccessfulDecompression().setEnabled(true);
-                                                            run.main.window.getButtonSuccessfulDecompression().setVisible(true);
+                                                            main.window.getSuccessfulDecompression().setEnabled(true);
+                                                            main.window.getSuccessfulDecompression().setVisible(true);
 
                                                             // Enable all other necessary buttons
-                                                            run.main.window.getButtonExtractResources().setEnabled(!run.main.window.getButtonExtractResources().isEnabled());
-                                                            run.main.window.getButtonOpenDirectory().setEnabled(!run.main.window.getButtonOpenDirectory().isEnabled());
-                                                            run.main.window.getButtonRemoveResource().setEnabled(!run.main.window.getButtonRemoveResource().isEnabled());
-                                                            run.main.window.getButtonChangeLanguage().setEnabled(!run.main.window.getButtonChangeLanguage().isEnabled());
-                                                            run.main.window.getButtonSetPassword().setEnabled(!run.main.window.getButtonSetPassword().isEnabled());
+                                                            main.window.getExtractFile().setEnabled(!main.window.getExtractFile().isEnabled());
+                                                            main.window.getOpenDirectory().setEnabled(!main.window.getOpenDirectory().isEnabled());
+                                                            main.window.getRemoveExtraction().setEnabled(!main.window.getRemoveExtraction().isEnabled());
+                                                            main.window.getChangeLanguage().setEnabled(!main.window.getChangeLanguage().isEnabled());
+                                                            main.window.getSetPassword().setEnabled(!main.window.getSetPassword().isEnabled());
 
                                                             // Set the extraction path to null
                                                             extractFile.this.setExtractionPathOne(null);
 
-                                                            // Display a success message dialog with options to donate via Paypal or accept
-                                                            extractFile.OShowDialog.message(false, "¡Enhorabuena! El fichero se ha extraído correctamente\n\nSí, usted considera que le ha sido de utilidad este software puede ayudar\nAl desarrollador con una donación vía PayPal", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/perfect-2.png"), new String[]{"Donar vía Paypal", "Aceptar"});
+                                                            // Display a success message dialog with options to donate or accept
+                                                            extractFile.OShowDialog.confirmation(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/done.png"), "Congratulations! The file has been extracted successfully\n\nYes, you think you have found this software useful can help\nTo the developer with a donation via PayPal", new String[]{"Donate", "Accept"});
                                                         }
                                                     }
                                                 };
@@ -129,44 +131,44 @@ public class extractFile implements interfaces.IExtractFile {
 
                                             } else {
                                                 // Display an error message dialog with options to accept
-                                                extractFile.OShowDialog.message(false, "Parece que el directorio de extracción no es absoluto\nPor favor, selecciona un directorio de extracción válido y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+                                                extractFile.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "It seems that the extract directory is not absolute\nPlease select a valid extraction directory and try again", "Accept");
                                             }
                                         } else {
                                             // Display an error message dialog with options to accept
-                                            extractFile.OShowDialog.message(false, "Parece que el directorio de extracción no existe\nPor favor, selecciona un directorio de extracción válido y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+                                            extractFile.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The extract directory does not appear to exist\nPlease select a valid extraction directory and try again", "Accept");
                                         }
                                     } else {
                                         // Display an error message dialog with options to accept
-                                        extractFile.OShowDialog.message(false, "Parece que el directorio de extracción no existe\nPor favor, selecciona un directorio de extracción válido y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+                                        extractFile.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The extraction directory appears to be null\nPlease select a valid extraction directory and try again", "Accept");
                                     }
                                 } else {
                                     // Display an error message dialog with options to accept
-                                    extractFile.OShowDialog.message(false, "Parece que el directorio de extracción no existe\nPor favor, selecciona un directorio de extracción válido y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+                                    extractFile.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The extract directory does not appear to exist\nPlease select a valid extraction directory and try again", "Accept");
                                 }
                             } else {
                                 // Display an error message dialog with options to accept
-                                extractFile.OShowDialog.message(false, "Parece que el directorio seleccionado no es absoluto\nPor favor, selecciona un directorio de extracción válido y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+                                extractFile.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The selected directory appears to be absolute\nPlease select a valid extraction directory and try again", "Accept");
                             }
                         } else {
                             // Display an error message dialog with options to accept
-                            extractFile.OShowDialog.message(false, "Parece que el directorio de extracción es nula\nPor favor, selecciona un directorio de extracción válido y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+                            extractFile.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The extraction directory appears to be null\nPlease select a valid extraction directory and try again", "Accept");
                         }
                     } else {
                         // Display an error message dialog with options to accept
-                        extractFile.OShowDialog.message(false, "Parece que no has seleccionado un fichero válido\nPor favor, selecciona un fichero válido y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+                        extractFile.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "It looks like you haven't selected a valid file\nPlease select a valid file and try again", "Accept");
                     }
                 } else {
                     // Display an error message dialog with options to accept
-                    extractFile.OShowDialog.message(false, "El fichero seleccionado no existe\nPor favor, selecciona un fichero válido y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+                    extractFile.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The selected file does not exist\nPlease select a valid file and try again", "Accept");
                 }
             } else {
                 // Display an error message dialog with options to accept
-                extractFile.OShowDialog.message(false, "El directorio del fichero de extracción no es absoluto\nPor favor, selecciona un fichero válido y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+                extractFile.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The extraction file directory is not absolute\nPlease select a valid file and try again", "Accept");
             }
-        } /*else {
+        } else {
             // Display an error message dialog with options to accept
-            extractFile.OShowDialog.message(false, "El fichero de extracción es nulo\nPor favor, selecciona un fichero válido y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
-        }*/
+            extractFile.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The extraction file is null\nPlease select a valid file and try again", "Accept");
+        }
     }
 
     // Implements the selectFile method from the Extractor interface to select a file
@@ -234,29 +236,29 @@ public class extractFile implements interfaces.IExtractFile {
     public void restoreOperations() {
         if (extractFile.exitCode != 0) { // If the exit code is not zero
             // Disable the error button
-            run.main.window.getButtonError().setVisible(!run.main.window.getButtonError().isVisible());
-            run.main.window.getButtonError().setEnabled(!run.main.window.getButtonError().isEnabled());
+            main.window.getFailedDecompression().setVisible(!main.window.getFailedDecompression().isVisible());
+            main.window.getFailedDecompression().setEnabled(!main.window.getFailedDecompression().isEnabled());
 
             // Enable the extraction resources, open directory, remove resource, change language and password buttons
-            run.main.window.getButtonExtractResources().setEnabled(!run.main.window.getButtonExtractResources().isEnabled());
-            run.main.window.getButtonOpenDirectory().setEnabled(!run.main.window.getButtonOpenDirectory().isEnabled());
-            run.main.window.getButtonRemoveResource().setEnabled(!run.main.window.getButtonRemoveResource().isEnabled());
-            run.main.window.getButtonChangeLanguage().setEnabled(!run.main.window.getButtonChangeLanguage().isEnabled());
-            run.main.window.getButtonSetPassword().setEnabled(!run.main.window.getButtonSetPassword().isEnabled());
+            main.window.getExtractFile().setEnabled(!main.window.getExtractFile().isEnabled());
+            main.window.getOpenDirectory().setEnabled(!main.window.getOpenDirectory().isEnabled());
+            main.window.getRemoveExtraction().setEnabled(!main.window.getRemoveExtraction().isEnabled());
+            main.window.getChangeLanguage().setEnabled(!main.window.getChangeLanguage().isEnabled());
+            main.window.getSetPassword().setEnabled(!main.window.getSetPassword().isEnabled());
 
         } else { // If the exit code is zero
             // Disable the successful decompression button
-            run.main.window.getButtonSuccessfulDecompression().setVisible(!run.main.window.getButtonSuccessfulDecompression().isValid());
-            run.main.window.getButtonSuccessfulDecompression().setEnabled(!run.main.window.getButtonSuccessfulDecompression().isEnabled());
+            main.window.getSuccessfulDecompression().setVisible(!main.window.getSuccessfulDecompression().isValid());
+            main.window.getSuccessfulDecompression().setEnabled(!main.window.getSuccessfulDecompression().isEnabled());
         }
 
         // Enable the resource import button
-        run.main.window.getButtonImportResource().setEnabled(!run.main.window.getButtonImportResource().isEnabled());
-        run.main.window.getButtonImportResource().setVisible(!run.main.window.getButtonImportResource().isVisible());
+        main.window.getImportFile().setEnabled(!main.window.getImportFile().isEnabled());
+        main.window.getImportFile().setVisible(!main.window.getImportFile().isVisible());
 
         // Set the output label text to "Output..." and add a tooltip
-        run.main.window.setLabelOutputText("Output...");
-        run.main.window.getLabelOutputText().setToolTipText("Here you will see all the tasks that are executing");
+        main.window.setOutputText("Output...");
+        main.window.getOutputText().setToolTipText("Here you will see all the tasks that are executing");
 
         // Set the extraction path, filename, and filepath to null
         this.setFileName(null);

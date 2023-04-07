@@ -1,10 +1,12 @@
 package resource;
 
+import run.main;
+
 public class explorer implements interfaces.IExplorer {
 
     // These are private variables of type "File" in the "explorer" class.
     private java.io.File fileName;
-    private java.io.File filePath;
+    private java.io.File fileDirectory;
     private java.io.File extractionPathOne;
     private java.io.File extractionPathTwo;
 
@@ -17,10 +19,10 @@ public class explorer implements interfaces.IExplorer {
     public void selectFile() throws showException {
 
         // A file dialog box is created to allow the user to select a file.
-        java.awt.FileDialog selectFile = new java.awt.FileDialog(run.main.window, "Seleccionar fichero", java.awt.FileDialog.LOAD);
+        java.awt.FileDialog selectFile = new java.awt.FileDialog(main.window, "Select file", java.awt.FileDialog.LOAD);
 
         // A filter is set on the dialog box to show only files that end with ".rar"
-        selectFile.setFilenameFilter((java.io.File directorio, String nombre) -> nombre.endsWith(".rar"));
+        selectFile.setFilenameFilter((java.io.File directory, String name) -> name.endsWith(".rar"));
 
         // The file dialog box is made visible to the user
         selectFile.setVisible(true);
@@ -34,13 +36,15 @@ public class explorer implements interfaces.IExplorer {
             String convertFileName = (selectFile.getFile().length() > 20 ? selectFile.getFile().substring(0, 13) + "..." + selectFile.getFile().substring(selectFile.getFile().length() - 7) : selectFile.getFile());
 
             // Change the output label
-            run.main.window.setLabelOutputText("Fichero seleccionado: " + convertFileName);
+            String changeLabelOutputText = "Selected file " + convertFileName;
+            main.window.setOutputText(changeLabelOutputText);
+            main.window.getOutputText().setToolTipText(changeLabelOutputText);
 
             // A dialog box is created to display a success message to the user
-            this.OShowDialog.message(false, "El fichero " + convertFileName + " se ha seleccionado correctamente\nAhora puedes extraerlo dando clic en el botón azul", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/perfect-2.png"), new String[]{"Aceptar"});
+            this.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/done.png"), "The file " + convertFileName + " has been successfully selected\nNow you can extract it by clicking on the blue button", "Accept");
         } else {
             // If the user has not selected a file, then an error message is displayed to the user.
-            this.OShowDialog.message(false, "Parece que el fichero de seleccion es nulo\nPor favor, selecciona un fichero válido y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+            this.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The selection file is null\nPlease select a valid file and try again", "Accept");
         }
     }
 
@@ -49,7 +53,7 @@ public class explorer implements interfaces.IExplorer {
     public void extractionPath() throws showException {
 
         // A file dialog box is created to allow the user to select a path to save the extracted files
-        java.awt.FileDialog saveResource = new java.awt.FileDialog(run.main.window, "Ruta de extración", java.awt.FileDialog.SAVE);
+        java.awt.FileDialog saveResource = new java.awt.FileDialog(main.window, "Select extraction directory", java.awt.FileDialog.SAVE);
 
         // The file dialog box is made visible to the user.
         saveResource.setVisible(true);
@@ -62,7 +66,7 @@ public class explorer implements interfaces.IExplorer {
             this.setExtractionPathTwo(new java.io.File(saveResource.getDirectory() + saveResource.getFile()));
         } else {
             // If the user has not selected a path, then an error message is displayed to the user.
-            this.OShowDialog.message(false, "Parece que el directorio de extracción en nulo\nPor favor, selecciona una ruta, asígnale un nombre y vuelve a intentarlo", new javax.swing.ImageIcon(System.getProperty("user.dir") + "/container/images/cancel.png"), new String[]{"Aceptar"});
+            this.OShowDialog.notify(new javax.swing.ImageIcon(System.getProperty("user.dir") + "/resources/images/failed.png"), "The extraction directory appears to be null\nPlease select a route, give it a name and try again", "Accept");
         }
     }
 
@@ -81,13 +85,13 @@ public class explorer implements interfaces.IExplorer {
     // Returns the file path associated with this object
     @Override
     public java.io.File getFilePath() {
-        return this.filePath;
+        return this.fileDirectory;
     }
 
     // Sets the file path associated with this object
     @Override
     public void setFilePath(java.io.File filePath) {
-        this.filePath = filePath;
+        this.fileDirectory = filePath;
     }
 
     // Returns the first extraction path associated with this object

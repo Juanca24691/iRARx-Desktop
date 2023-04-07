@@ -21,4 +21,5 @@ public interface IExplorer {
     java.io.File getExtractionPathTwo();
 
     void setExtractionPathTwo(java.io.File absoluteRoute);
+
 }
